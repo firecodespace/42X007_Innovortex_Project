@@ -135,6 +135,8 @@
     <ClCompile Include="Fighter.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GamePlayState.cpp" />
+    <ClCompile Include="BridgeClient.cpp" />
+    <ClCompile Include="WalletConfig.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="PvP_BlockChain.cpp" />
     <ClCompile Include="State.cpp" />
@@ -146,6 +148,8 @@
     <ClInclude Include="Fighter.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GamePlayState.h" />
+    <ClInclude Include="BridgeClient.h" />
+    <ClInclude Include="WalletConfig.h" />
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="State.h" />
   </ItemGroup>
