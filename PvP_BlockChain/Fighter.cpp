@@ -26,15 +26,6 @@ Fighter::Fighter(float x, float y, sf::Keyboard::Key left, sf::Keyboard::Key rig
     hp = 100;
 }
 
-// --- New Public Methods ---
-int Fighter::getHP() const { return hp; }
-void Fighter::hurt(int amt) { hp -= amt; if (hp < 0) hp = 0; }
-sf::FloatRect Fighter::getHitbox() const { return sprite.getGlobalBounds(); }
-bool Fighter::isAttacking() const {
-    return currentName == "ATTACK1" || currentName == "ATTACK2" || currentName == "ATTACK3";
-}
-std::string Fighter::getCurrentName() const { return currentName; }
-
 void Fighter::loadAnimations() {
     static sf::Texture idleTex, walkTex, runTex, jumpTex, atk1Tex, atk2Tex, atk3Tex, hurtTex, deadTex, defendTex, protectTex, runAtkTex;
     idleTex.loadFromFile("Resources/Images/sprites/Idle.png");
@@ -86,7 +77,6 @@ void Fighter::update(float dt, const sf::RenderWindow& window) {
 
     move.y += velocityY * dt;
     velocityY += GRAVITY * dt;
-
     currentAnimation->applyToSprite(sprite);
     sprite.move(move);
 
@@ -104,8 +94,7 @@ void Fighter::update(float dt, const sf::RenderWindow& window) {
         onGround = true;
         velocityY = 0.f;
     }
-    else
-        onGround = false;
+    else onGround = false;
     sprite.setPosition(pos);
 
     if (name != currentName && (currentAnimation->isLooping() || currentAnimation->isComplete())) {
@@ -117,7 +106,6 @@ void Fighter::update(float dt, const sf::RenderWindow& window) {
 }
 
 void Fighter::draw(sf::RenderWindow& window) { window.draw(sprite); }
-
 void Fighter::drawHealthBar(sf::RenderWindow& window, bool left) const {
     float barWidth = 150, barHeight = 16, x = left ? 20 : window.getSize().x - barWidth - 20,
         y = left ? window.getSize().y - barHeight - 40 : 30;
@@ -147,3 +135,8 @@ void Fighter::drawHealthBar(sf::RenderWindow& window, bool left) const {
     window.draw(label);
     window.draw(value);
 }
+int Fighter::getHP() const { return hp; }
+void Fighter::hurt(int amt) { hp -= amt; if (hp < 0) hp = 0; }
+sf::FloatRect Fighter::getHitbox() const { return sprite.getGlobalBounds(); }
+bool Fighter::isAttacking() const { return currentName == "ATTACK1" || currentName == "ATTACK2" || currentName == "ATTACK3"; }
+bool Fighter::isShielding() const { return currentName == "DEFEND"; }

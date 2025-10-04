@@ -2,8 +2,12 @@
 
 Game::Game(sf::RenderWindow& win)
     : window(win),
-    arena("D:/amity/testing/2nd/PvP_BlockChain/PvP_BlockChain/Resources/Images/Background/arena.jpg", window.getSize()),
-    fighter1(nullptr), fighter2(nullptr), running(true)
+    arena("D:/amity/testing/2nd/PvP_BlockChain/PvP_BlockChain/Resources/Images/Background/arena.jpg", win.getSize()),
+    fighter1(nullptr),
+    fighter2(nullptr),
+    running(true),
+    hit1ThisFrame(false),
+    hit2ThisFrame(false)
 {
     reset();
 }
@@ -31,19 +35,18 @@ void Game::update(float dt) {
     fighter1->update(dt, window);
     fighter2->update(dt, window);
 
-    // Attack collision - reduce health
-    // To avoid repeat hits, only allow one "hurt" per animation start
     if (fighter1->isAttacking() && fighter1->getHitbox().intersects(fighter2->getHitbox())) {
-        if (!hit2ThisFrame) {
-            fighter2->hurt(10); // adjust damage as you wish
+        if (!fighter2->isShielding() && !hit2ThisFrame) {
+            fighter2->hurt(10);
             hit2ThisFrame = true;
         }
     }
     else {
         hit2ThisFrame = false;
     }
+
     if (fighter2->isAttacking() && fighter2->getHitbox().intersects(fighter1->getHitbox())) {
-        if (!hit1ThisFrame) {
+        if (!fighter1->isShielding() && !hit1ThisFrame) {
             fighter1->hurt(10);
             hit1ThisFrame = true;
         }
@@ -52,7 +55,6 @@ void Game::update(float dt) {
         hit1ThisFrame = false;
     }
 
-    // End game if someone is dead
     if (fighter1->getHP() <= 0 || fighter2->getHP() <= 0)
         running = false;
 
@@ -67,13 +69,9 @@ void Game::render() {
     fighter1->drawHealthBar(window, true);
     fighter2->drawHealthBar(window, false);
 }
-
-bool Game::isRunning() const {
-    return running;
-}
-
+bool Game::isRunning() const { return running; }
 int Game::getWinner() const {
-    if (fighter1->getHP() <= 0 && fighter2->getHP() <= 0) return 0; // Draw, both dead
+    if (fighter1->getHP() <= 0 && fighter2->getHP() <= 0) return 0;
     if (fighter1->getHP() <= 0) return 2;
     if (fighter2->getHP() <= 0) return 1;
     return 0;
