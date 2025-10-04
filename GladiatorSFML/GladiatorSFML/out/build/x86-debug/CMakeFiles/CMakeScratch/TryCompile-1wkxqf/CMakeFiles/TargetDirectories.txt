@@ -1,3 +1,0 @@
-C:/Shadow Gladiator Project/GladiatorSFML/GladiatorSFML/out/build/x86-debug/CMakeFiles/CMakeScratch/TryCompile-1wkxqf/CMakeFiles/cmTC_4c799.dir
-C:/Shadow Gladiator Project/GladiatorSFML/GladiatorSFML/out/build/x86-debug/CMakeFiles/CMakeScratch/TryCompile-1wkxqf/CMakeFiles/edit_cache.dir
-C:/Shadow Gladiator Project/GladiatorSFML/GladiatorSFML/out/build/x86-debug/CMakeFiles/CMakeScratch/TryCompile-1wkxqf/CMakeFiles/rebuild_cache.dir
