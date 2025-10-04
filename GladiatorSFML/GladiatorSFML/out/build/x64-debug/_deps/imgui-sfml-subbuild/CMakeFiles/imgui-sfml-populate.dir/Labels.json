@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Shadow Gladiator Project/GladiatorSFML/GladiatorSFML/out/build/x64-debug/_deps/imgui-sfml-subbuild/CMakeFiles/imgui-sfml-populate"
+		},
+		{
+			"file" : "C:/Shadow Gladiator Project/GladiatorSFML/GladiatorSFML/out/build/x64-debug/_deps/imgui-sfml-subbuild/CMakeFiles/imgui-sfml-populate.rule"
+		},
+		{
+			"file" : "C:/Shadow Gladiator Project/GladiatorSFML/GladiatorSFML/out/build/x64-debug/_deps/imgui-sfml-subbuild/CMakeFiles/imgui-sfml-populate-complete.rule"
+		},
+		{
+			"file" : "C:/Shadow Gladiator Project/GladiatorSFML/GladiatorSFML/out/build/x64-debug/_deps/imgui-sfml-subbuild/imgui-sfml-populate-prefix/src/imgui-sfml-populate-stamp/imgui-sfml-populate-build.rule"
+		},
+		{
+			"file" : "C:/Shadow Gladiator Project/GladiatorSFML/GladiatorSFML/out/build/x64-debug/_deps/imgui-sfml-subbuild/imgui-sfml-populate-prefix/src/imgui-sfml-populate-stamp/imgui-sfml-populate-configure.rule"
+		},
+		{
+			"file" : "C:/Shadow Gladiator Project/GladiatorSFML/GladiatorSFML/out/build/x64-debug/_deps/imgui-sfml-subbuild/imgui-sfml-populate-prefix/src/imgui-sfml-populate-stamp/imgui-sfml-populate-download.rule"
+		},
+		{
+			"file" : "C:/Shadow Gladiator Project/GladiatorSFML/GladiatorSFML/out/build/x64-debug/_deps/imgui-sfml-subbuild/imgui-sfml-populate-prefix/src/imgui-sfml-populate-stamp/imgui-sfml-populate-install.rule"
+		},
+		{
+			"file" : "C:/Shadow Gladiator Project/GladiatorSFML/GladiatorSFML/out/build/x64-debug/_deps/imgui-sfml-subbuild/imgui-sfml-populate-prefix/src/imgui-sfml-populate-stamp/imgui-sfml-populate-mkdir.rule"
+		},
+		{
+			"file" : "C:/Shadow Gladiator Project/GladiatorSFML/GladiatorSFML/out/build/x64-debug/_deps/imgui-sfml-subbuild/imgui-sfml-populate-prefix/src/imgui-sfml-populate-stamp/imgui-sfml-populate-patch.rule"
+		},
+		{
+			"file" : "C:/Shadow Gladiator Project/GladiatorSFML/GladiatorSFML/out/build/x64-debug/_deps/imgui-sfml-subbuild/imgui-sfml-populate-prefix/src/imgui-sfml-populate-stamp/imgui-sfml-populate-test.rule"
+		},
+		{
+			"file" : "C:/Shadow Gladiator Project/GladiatorSFML/GladiatorSFML/out/build/x64-debug/_deps/imgui-sfml-subbuild/imgui-sfml-populate-prefix/src/imgui-sfml-populate-stamp/imgui-sfml-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"imgui-sfml-populate"
+		],
+		"name" : "imgui-sfml-populate"
+	}
+}
