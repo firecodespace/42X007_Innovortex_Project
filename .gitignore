@@ -1,0 +1,54 @@
+## Node
+node_modules/
+**/node_modules/
+
+## Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
+
+## Environment / secrets
+.env
+.env.*
+*.secret
+*.key
+*.pem
+*.p12
+*.pfx
+node_bridge/ganache_keys.json
+
+## Solidity / Hardhat build artifacts
+/blockchain/artifacts/
+/blockchain/cache/
+/blockchain/cache/**
+/blockchain/build-info/
+/blockchain/deployments/
+
+## OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.vs/
+
+## Compiled binaries, libs, debug
+*.exe
+*.dll
+*.lib
+*.obj
+*.pdb
+
+## Visual Studio
+*.vcxproj.user
+*.suo
+*.user
+
+## Distribution
+dist/
+build/
+
+## Other
+*.bak
+*.tmp
