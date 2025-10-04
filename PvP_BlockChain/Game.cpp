@@ -23,19 +23,41 @@ void Game::reset() {
         sf::Keyboard::Numpad1, sf::Keyboard::Numpad2, sf::Keyboard::Numpad3,
         sf::Keyboard::Up, sf::Keyboard::RControl);
     running = true;
+    hit1ThisFrame = false;
+    hit2ThisFrame = false;
 }
 
 void Game::update(float dt) {
     fighter1->update(dt, window);
     fighter2->update(dt, window);
 
-    // ESC returns to menu
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+    // Attack collision - reduce health
+    // To avoid repeat hits, only allow one "hurt" per animation start
+    if (fighter1->isAttacking() && fighter1->getHitbox().intersects(fighter2->getHitbox())) {
+        if (!hit2ThisFrame) {
+            fighter2->hurt(10); // adjust damage as you wish
+            hit2ThisFrame = true;
+        }
+    }
+    else {
+        hit2ThisFrame = false;
+    }
+    if (fighter2->isAttacking() && fighter2->getHitbox().intersects(fighter1->getHitbox())) {
+        if (!hit1ThisFrame) {
+            fighter1->hurt(10);
+            hit1ThisFrame = true;
+        }
+    }
+    else {
+        hit1ThisFrame = false;
+    }
+
+    // End game if someone is dead
+    if (fighter1->getHP() <= 0 || fighter2->getHP() <= 0)
         running = false;
 
-    // -- Insert your win/lose logic here, for example:
-    // if (fighter1->getHP() <= 0 || fighter2->getHP() <= 0)
-    //     running = false;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+        running = false;
 }
 
 void Game::render() {
@@ -48,4 +70,11 @@ void Game::render() {
 
 bool Game::isRunning() const {
     return running;
+}
+
+int Game::getWinner() const {
+    if (fighter1->getHP() <= 0 && fighter2->getHP() <= 0) return 0; // Draw, both dead
+    if (fighter1->getHP() <= 0) return 2;
+    if (fighter2->getHP() <= 0) return 1;
+    return 0;
 }

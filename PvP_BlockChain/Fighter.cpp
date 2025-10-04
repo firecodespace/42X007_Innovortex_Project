@@ -13,7 +13,6 @@ Fighter::Fighter(float x, float y, sf::Keyboard::Key left, sf::Keyboard::Key rig
     loadAnimations();
     sprite.setPosition(x, y);
 
-    // Flip ONLY player 2 (if left key is Left Arrow)
     if (left == sf::Keyboard::Left)
         sprite.setScale(-2.0f, 2.0f);
     else
@@ -24,7 +23,17 @@ Fighter::Fighter(float x, float y, sf::Keyboard::Key left, sf::Keyboard::Key rig
     currentAnimation = animations["IDLE"];
     velocityY = 0;
     onGround = true;
+    hp = 100;
 }
+
+// --- New Public Methods ---
+int Fighter::getHP() const { return hp; }
+void Fighter::hurt(int amt) { hp -= amt; if (hp < 0) hp = 0; }
+sf::FloatRect Fighter::getHitbox() const { return sprite.getGlobalBounds(); }
+bool Fighter::isAttacking() const {
+    return currentName == "ATTACK1" || currentName == "ATTACK2" || currentName == "ATTACK3";
+}
+std::string Fighter::getCurrentName() const { return currentName; }
 
 void Fighter::loadAnimations() {
     static sf::Texture idleTex, walkTex, runTex, jumpTex, atk1Tex, atk2Tex, atk3Tex, hurtTex, deadTex, defendTex, protectTex, runAtkTex;
@@ -62,7 +71,6 @@ void Fighter::update(float dt, const sf::RenderWindow& window) {
     if (sf::Keyboard::isKeyPressed(leftKey)) { move.x -= 180 * dt; name = "WALK"; }
     if (sf::Keyboard::isKeyPressed(rightKey)) { move.x += 180 * dt; name = "WALK"; }
 
-    // Shield/Defend (overrides attacks)
     if (sf::Keyboard::isKeyPressed(shieldKey)) name = "DEFEND";
     else {
         if (sf::Keyboard::isKeyPressed(attack1Key)) name = "ATTACK1";
@@ -70,14 +78,12 @@ void Fighter::update(float dt, const sf::RenderWindow& window) {
         if (sf::Keyboard::isKeyPressed(attack3Key)) name = "ATTACK3";
     }
 
-    // Jump: only when on ground!
     if (sf::Keyboard::isKeyPressed(jumpKey) && onGround) {
         velocityY = -JUMP_STRENGTH;
         onGround = false;
         name = "JUMP";
     }
 
-    // Apply vertical physics
     move.y += velocityY * dt;
     velocityY += GRAVITY * dt;
 
@@ -88,24 +94,20 @@ void Fighter::update(float dt, const sf::RenderWindow& window) {
     sf::Vector2f pos = sprite.getPosition();
     float windowWidth = static_cast<float>(window.getSize().x);
 
-    // Edge handling for flipping
     if (sprite.getScale().x > 0)
         pos.x = std::max(0.f, std::min(pos.x, windowWidth - globalBounds.width));
     else
         pos.x = std::max(globalBounds.width, std::min(pos.x, windowWidth));
-
     float groundY = window.getSize().y - globalBounds.height - 12;
     if (pos.y >= groundY) {
         pos.y = groundY;
         onGround = true;
         velocityY = 0.f;
     }
-    else {
+    else
         onGround = false;
-    }
     sprite.setPosition(pos);
 
-    // Animation state change
     if (name != currentName && (currentAnimation->isLooping() || currentAnimation->isComplete())) {
         currentName = name;
         currentAnimation = animations[name];

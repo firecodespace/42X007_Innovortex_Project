@@ -13,6 +13,13 @@ public:
     void update(float dt, const sf::RenderWindow& window);
     void draw(sf::RenderWindow& window);
     void drawHealthBar(sf::RenderWindow& window, bool left) const;
+
+    int getHP() const;                          // NEW
+    void hurt(int amt);                         // NEW
+    sf::FloatRect getHitbox() const;            // NEW
+    bool isAttacking() const;                   // NEW
+    std::string getCurrentName() const;         // For debug or overlay
+
 private:
     sf::Sprite sprite;
     std::map<std::string, Animation*> animations;

@@ -14,4 +14,7 @@ private:
     sf::RenderWindow& window;
     Game game;
     sf::Clock clock;
+    bool gameOver = false;
+    int winner = 0;
+    sf::Font font;
 };

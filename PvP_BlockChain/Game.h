@@ -10,6 +10,7 @@ public:
     void render();
     bool isRunning() const;
     void reset();
+    int getWinner() const;  // NEW!
 
 private:
     sf::RenderWindow& window;
@@ -17,4 +18,5 @@ private:
     Fighter* fighter1;
     Fighter* fighter2;
     bool running;
+    bool hit1ThisFrame = false, hit2ThisFrame = false; // To avoid multiple hits per frame
 };
