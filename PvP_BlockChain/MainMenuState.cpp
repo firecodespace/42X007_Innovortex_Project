@@ -5,7 +5,15 @@ MainMenuState::MainMenuState(sf::RenderWindow& win)
     arena("Resources/Images/Video/ezgif-frame-001.jpg", win.getSize())
 {
     font.loadFromFile("D:/amity/testing/2nd/PvP_BlockChain/PvP_BlockChain/Resources/Images/fonts/ARCADECLASSIC.TTF");
-    std::string labels[] = { "NEW GAME", "SETTINGS", "STORE", "EXIT" };
+
+    // Load and play background music
+    if (music.openFromFile("Resources/Music/retro-arcade-game-music-297305.mp3")) {
+        music.setLoop(true);
+        music.setVolume(50);
+        music.play();
+    }
+
+    std::string labels[] = { "NEW GAME", "SELECT MAP", "STORE", "EXIT" };
     float startX = 40.f;
     float startY = window.getSize().y - 240.f;
     float spacing = 60.f;
@@ -24,7 +32,7 @@ void MainMenuState::initText(sf::Text& text, const std::string& str, float x, fl
     text.setPosition(x, y);
 }
 
-StateID MainMenuState::update(float dt) {  // CHANGED: Added float dt parameter
+StateID MainMenuState::update(float dt) {
     sf::Event event;
     while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed)
@@ -33,9 +41,10 @@ StateID MainMenuState::update(float dt) {  // CHANGED: Added float dt parameter
             auto pos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
             for (size_t i = 0; i < buttons.size(); ++i) {
                 if (buttons[i].getGlobalBounds().contains(pos)) {
+                    music.stop();  // Stop music when leaving menu
                     switch (i) {
                     case 0: return StateID::GamePlay;
-                    case 1: return StateID::Settings;
+                    case 1: return StateID::MapSelection;
                     case 2: return StateID::Store;
                     case 3: return StateID::Exit;
                     }
@@ -50,7 +59,7 @@ void MainMenuState::render() {
     window.clear();
     arena.draw(window);
 
-    sf::RectangleShape overlay(sf::Vector2f(window.getSize()));
+    sf::RectangleShape overlay(sf::Vector2f((float)window.getSize().x, (float)window.getSize().y));
     overlay.setFillColor(sf::Color(0, 0, 0, 150));
     window.draw(overlay);
 

@@ -1,19 +1,22 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>  // ADD THIS
 #include "State.h"
 #include "Arena.h"
 
-class MainMenuState : public State {
+class MapSelectionState : public State {
 public:
-    MainMenuState(sf::RenderWindow& win);
+    MapSelectionState(sf::RenderWindow& win);
     StateID update(float dt) override;
     void render() override;
+    static int getSelectedMap() { return selectedMapIndex; }
+
 private:
     sf::RenderWindow& window;
     sf::Font font;
-    std::vector<sf::Text> buttons;
     Arena arena;
-    sf::Music music;  // ADD THIS
+    std::vector<sf::Text> mapButtons;
+    static int selectedMapIndex;
+
+    void initMapButtons();
     void initText(sf::Text& text, const std::string& str, float x, float y);
 };

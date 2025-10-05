@@ -137,6 +137,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GamePlayState.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
+    <ClCompile Include="MapSelectionState.cpp" />
     <ClCompile Include="PauseGameState.cpp" />
     <ClCompile Include="PvP_BlockChain.cpp" />
     <ClCompile Include="State.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GamePlayState.h" />
     <ClInclude Include="MainMenuState.h" />
+    <ClInclude Include="MapSelectionState.h" />
     <ClInclude Include="PauseGameState.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StoreState.h" />

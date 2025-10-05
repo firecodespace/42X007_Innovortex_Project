@@ -3,14 +3,13 @@
 
 enum class StateID {
     MainMenu,
+    MapSelection,
     GamePlay,
     PauseGame,
     Exit,
-    Settings,
     Store
 };
 
-// Base class for all game states
 class State {
 public:
     virtual ~State() = default;

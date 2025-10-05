@@ -4,6 +4,7 @@
 #include "GamePlayState.h"
 #include "PauseGameState.h"
 #include "StoreState.h"
+#include "MapSelectionState.h"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(960, 540), "Pixel PvP Arena");
@@ -15,6 +16,7 @@ int main() {
     State* gamePlay = nullptr;
     State* pauseMenu = nullptr;
     State* storeMenu = nullptr;
+    State* mapSelection = nullptr;
 
     sf::Clock clock;
 
@@ -28,12 +30,14 @@ int main() {
             if (previousState == StateID::GamePlay) delete gamePlay;
             if (previousState == StateID::PauseGame) delete pauseMenu;
             if (previousState == StateID::Store) delete storeMenu;
+            if (previousState == StateID::MapSelection) delete mapSelection;  // ADD THIS
 
             // Create new state
             if (currentState == StateID::MainMenu) mainMenu = new MainMenuState(window);
             if (currentState == StateID::GamePlay) gamePlay = new GamePlayState(window);
             if (currentState == StateID::PauseGame) pauseMenu = new PauseGameState(window);
             if (currentState == StateID::Store) storeMenu = new StoreState(window);
+            if (currentState == StateID::MapSelection) mapSelection = new MapSelectionState(window);  // ADD THIS
 
             previousState = currentState;
         }
@@ -42,22 +46,27 @@ int main() {
         switch (currentState) {
         case StateID::MainMenu:
             if (!mainMenu) mainMenu = new MainMenuState(window);
-            currentState = mainMenu->update(dt);  // FIXED: Added dt
+            currentState = mainMenu->update(dt);
             mainMenu->render();
+            break;
+        case StateID::MapSelection:  // ADD THIS CASE
+            if (!mapSelection) mapSelection = new MapSelectionState(window);
+            currentState = mapSelection->update(dt);
+            mapSelection->render();
             break;
         case StateID::GamePlay:
             if (!gamePlay) gamePlay = new GamePlayState(window);
-            currentState = gamePlay->update(dt);  // Already correct
+            currentState = gamePlay->update(dt);
             gamePlay->render();
             break;
         case StateID::PauseGame:
             if (!pauseMenu) pauseMenu = new PauseGameState(window);
-            currentState = pauseMenu->update(dt);  // FIXED: Added dt
+            currentState = pauseMenu->update(dt);
             pauseMenu->render();
             break;
         case StateID::Store:
             if (!storeMenu) storeMenu = new StoreState(window);
-            currentState = storeMenu->update(dt);  // FIXED: Added dt
+            currentState = storeMenu->update(dt);
             storeMenu->render();
             break;
         case StateID::Exit:
@@ -72,6 +81,7 @@ int main() {
     delete gamePlay;
     delete pauseMenu;
     delete storeMenu;
+    delete mapSelection;  // ADD THIS
 
     return 0;
 }
