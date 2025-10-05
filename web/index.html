@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Gladiator Arena — Download</title>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; background:#0b0b0f; color:#eee; margin:0; }
+    header { background:#111; padding:24px 40px; box-shadow:0 2px 8px rgba(0,0,0,.6); }
+    .container { max-width:980px; margin:36px auto; padding:0 20px; }
+    .card { background:#121218; border-radius:10px; padding:20px; box-shadow:0 8px 24px rgba(0,0,0,.6); }
+    a.button { display:inline-block; background:#1db954; color:#021; padding:14px 20px; border-radius:6px; text-decoration:none; font-weight:700; }
+    pre { background:#0b0b0f; padding:12px; border-radius:6px; overflow:auto; }
+    footer { color:#999; padding:24px 40px; text-align:center; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Gladiator Arena</h1>
+      <p style="margin:4px 0 0; color:#bbb">Retro PvP fighting game — Web3 integrated NFT minting</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>Download</h2>
+      <p>Download the latest Windows build (x64). If you want in-browser play, see the Project docs — WebAssembly build is optional.</p>
+
+      <!-- By default this page looks for a release ZIP at /releases/GladiatorArena-latest.zip -->
+      <p>
+        <a class="button" id="downloadBtn" href="/releases/GladiatorArena-latest.zip" download>Download Windows (x64)</a>
+      </p>
+
+      <h3>Quick install</h3>
+      <ol>
+        <li>Download the ZIP for Windows.</li>
+        <li>Extract the ZIP and run <code>PvP_BlockChain.exe</code> (or the provided exe).</li>
+        <li>Open the Main Menu and enter two wallet addresses (use Ganache for testing) to enable on-win NFT minting.</li>
+      </ol>
+
+      <h3>Live bridge server</h3>
+      <p>If you want to test the Web3 integration locally, start the Node bridge on <code>http://localhost:3000</code> as documented in the repo, then run the game.</p>
+
+      <h3>Developer & CI</h3>
+      <p>The project includes a GitHub Actions workflow that can build Windows artifacts and upload them as workflow artifacts. See the <code>/.github/workflows</code> directory.</p>
+    </section>
+
+    <section style="margin-top:18px;" class="card">
+      <h2>Hosting this page</h2>
+      <p>You can host this folder using GitHub Pages. See <code>/docs/hosting.md</code> for step-by-step instructions.</p>
+      <p>If you don't want to host the ZIP in the repo, upload the build ZIP to GitHub Releases and either:
+        <ul>
+          <li>Replace the button <code>href</code> with the direct release asset URL (from GitHub Releases).</li>
+          <li>Or copy the ZIP into <code>web/releases/GladiatorArena-latest.zip</code> in this repository and redeploy GitHub Pages.
+        </ul>
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <small>Gladiator Arena — Hosted download page</small>
+  </footer>
+
+  <script>
+    // Placeholder: update this to point to your latest release asset URL
+    const assetUrl = '#RELEASE_ASSET_URL#';
+    const btn = document.getElementById('downloadBtn');
+    if (assetUrl && assetUrl !== '#RELEASE_ASSET_URL#') btn.href = assetUrl; else btn.href = 'https://github.com/<owner>/<repo>/releases';
+  </script>
+</body>
+</html>

@@ -30,6 +30,12 @@ StateID GamePlayState::update(float dt) {
         if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
             waitingForKeyRelease = true;
         }
+
+        // Forward mouse clicks to game confirmation handler
+        if (event.type == sf::Event::MouseButtonPressed) {
+            auto pos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+            game.handleMouseClick(pos);
+        }
     }
 
     if (!gameOver) {
