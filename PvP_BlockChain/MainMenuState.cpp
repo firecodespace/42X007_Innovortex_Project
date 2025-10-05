@@ -24,7 +24,7 @@ void MainMenuState::initText(sf::Text& text, const std::string& str, float x, fl
     text.setPosition(x, y);
 }
 
-StateID MainMenuState::update() {
+StateID MainMenuState::update(float dt) {  // CHANGED: Added float dt parameter
     sf::Event event;
     while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed)

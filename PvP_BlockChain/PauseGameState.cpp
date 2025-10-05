@@ -74,7 +74,7 @@ void PauseGameState::drawTexts(const std::vector<sf::Text>& texts) {
     for (const auto& t : texts) window.draw(t);
 }
 
-StateID PauseGameState::update() {
+StateID PauseGameState::update(float dt) {  // ADD float dt parameter
     sf::Event event;
     while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed)
@@ -109,7 +109,7 @@ StateID PauseGameState::update() {
 void PauseGameState::render() {
     window.clear();
     arena.draw(window);
-    sf::RectangleShape overlay(sf::Vector2f(window.getSize()));
+    sf::RectangleShape overlay(sf::Vector2f((float)window.getSize().x, (float)window.getSize().y));
     overlay.setFillColor(sf::Color(0, 0, 0, 190));
     window.draw(overlay);
 

@@ -3,11 +3,11 @@
 #include "State.h"
 #include "Arena.h"
 
-class MainMenuState {
+class MainMenuState : public State {  // FIXED: Added : public State
 public:
     MainMenuState(sf::RenderWindow& win);
-    StateID update();
-    void render();
+    StateID update(float dt) override;  // FIXED: Added float dt and override
+    void render() override;  // FIXED: Added override
 private:
     sf::RenderWindow& window;
     sf::Font font;

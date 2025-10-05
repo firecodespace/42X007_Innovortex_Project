@@ -1,17 +1,14 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <string>
 
 class BackgroundVideo {
 public:
-    BackgroundVideo(const std::string& spritesheetPath, int rows, int cols, float fps, const sf::Vector2u& windowSize);
-    void update(float dt);
+    BackgroundVideo(const std::string& imagePath, sf::Vector2u windowSize);
+
     void draw(sf::RenderWindow& window);
+
 private:
-    sf::Texture spritesheet;
+    sf::Texture texture;
     sf::Sprite sprite;
-    int rows, cols, totalFrames;
-    int currentFrame = 0;
-    float frameTime;
-    float elapsedTime = 0.f;
-    int frameWidth, frameHeight;
 };

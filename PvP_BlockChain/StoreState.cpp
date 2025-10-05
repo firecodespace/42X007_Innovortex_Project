@@ -74,7 +74,7 @@ void StoreState::drawTexts(const std::vector<sf::Text>& texts) {
     for (const auto& t : texts) window.draw(t);
 }
 
-StateID StoreState::update() {
+StateID StoreState::update(float dt) {  // CHANGED: Added float dt parameter
     sf::Event event;
     while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed)
@@ -113,14 +113,12 @@ StateID StoreState::update() {
                 }
             }
             else if (currentSubMenu == SubMenu::BuyWeapon) {
-                // Buy Sword - only if enough gold
                 if (weaponTexts[2].getGlobalBounds().contains(pos)) {
                     if (gold >= 80) {
                         gold -= 80;
                         weaponTexts[1].setString("GOLD " + std::to_string(gold));
                     }
                 }
-                // Buy Shield - only if enough gold
                 if (weaponTexts[3].getGlobalBounds().contains(pos)) {
                     if (gold >= 60) {
                         gold -= 60;
@@ -129,21 +127,18 @@ StateID StoreState::update() {
                 }
             }
             else if (currentSubMenu == SubMenu::Upgrade) {
-                // Upgrade Armor - only if enough gold
                 if (upgradeTexts[2].getGlobalBounds().contains(pos)) {
                     if (gold >= 50) {
                         gold -= 50;
                         upgradeTexts[1].setString("GOLD " + std::to_string(gold));
                     }
                 }
-                // Upgrade Weapon - only if enough gold
                 if (upgradeTexts[3].getGlobalBounds().contains(pos)) {
                     if (gold >= 50) {
                         gold -= 50;
                         upgradeTexts[1].setString("GOLD " + std::to_string(gold));
                     }
                 }
-                // Upgrade Health - only if enough gold
                 if (upgradeTexts[4].getGlobalBounds().contains(pos)) {
                     if (gold >= 40) {
                         gold -= 40;
@@ -159,7 +154,7 @@ StateID StoreState::update() {
 void StoreState::render() {
     window.clear();
     arena.draw(window);
-    sf::RectangleShape overlay(sf::Vector2f(window.getSize()));
+    sf::RectangleShape overlay(sf::Vector2f((float)window.getSize().x, (float)window.getSize().y));
     overlay.setFillColor(sf::Color(0, 0, 0, 190));
     window.draw(overlay);
 

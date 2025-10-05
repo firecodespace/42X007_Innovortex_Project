@@ -7,32 +7,58 @@
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(960, 540), "Pixel PvP Arena");
-    StateID state = StateID::MainMenu;
-    MainMenuState mainMenu(window);
-    GamePlayState gamePlay(window);
-    PauseGameState pauseMenu(window);
-    StoreState storeMenu(window);
+    StateID currentState = StateID::MainMenu;
+    StateID previousState = StateID::MainMenu;
+
+    // Create state pointers
+    State* mainMenu = nullptr;
+    State* gamePlay = nullptr;
+    State* pauseMenu = nullptr;
+    State* storeMenu = nullptr;
+
     sf::Clock clock;
 
-    while (window.isOpen() && state != StateID::Exit) {
+    while (window.isOpen() && currentState != StateID::Exit) {
         float dt = clock.restart().asSeconds();
 
-        switch (state) {
+        // Recreate state ONLY when transitioning
+        if (currentState != previousState) {
+            // Clean up old state
+            if (previousState == StateID::MainMenu) delete mainMenu;
+            if (previousState == StateID::GamePlay) delete gamePlay;
+            if (previousState == StateID::PauseGame) delete pauseMenu;
+            if (previousState == StateID::Store) delete storeMenu;
+
+            // Create new state
+            if (currentState == StateID::MainMenu) mainMenu = new MainMenuState(window);
+            if (currentState == StateID::GamePlay) gamePlay = new GamePlayState(window);
+            if (currentState == StateID::PauseGame) pauseMenu = new PauseGameState(window);
+            if (currentState == StateID::Store) storeMenu = new StoreState(window);
+
+            previousState = currentState;
+        }
+
+        // Run current state
+        switch (currentState) {
         case StateID::MainMenu:
-            state = mainMenu.update();
-            mainMenu.render();
+            if (!mainMenu) mainMenu = new MainMenuState(window);
+            currentState = mainMenu->update(dt);  // FIXED: Added dt
+            mainMenu->render();
             break;
         case StateID::GamePlay:
-            state = gamePlay.update(dt);
-            gamePlay.render();
+            if (!gamePlay) gamePlay = new GamePlayState(window);
+            currentState = gamePlay->update(dt);  // Already correct
+            gamePlay->render();
             break;
         case StateID::PauseGame:
-            state = pauseMenu.update();
-            pauseMenu.render();
+            if (!pauseMenu) pauseMenu = new PauseGameState(window);
+            currentState = pauseMenu->update(dt);  // FIXED: Added dt
+            pauseMenu->render();
             break;
         case StateID::Store:
-            state = storeMenu.update();
-            storeMenu.render();
+            if (!storeMenu) storeMenu = new StoreState(window);
+            currentState = storeMenu->update(dt);  // FIXED: Added dt
+            storeMenu->render();
             break;
         case StateID::Exit:
             window.close();
@@ -40,5 +66,12 @@ int main() {
         default: break;
         }
     }
+
+    // Cleanup
+    delete mainMenu;
+    delete gamePlay;
+    delete pauseMenu;
+    delete storeMenu;
+
     return 0;
 }

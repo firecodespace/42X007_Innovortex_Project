@@ -3,16 +3,17 @@
 #include "State.h"
 #include "Game.h"
 
-class GamePlayState {
+class GamePlayState : public State {
 public:
     GamePlayState(sf::RenderWindow& win);
-    StateID update(float dt);  // <--- CHANGED THIS LINE - ADDED float dt
-    void render();
+    StateID update(float dt) override;
+    void render() override;
+
 private:
     sf::RenderWindow& window;
     Game game;
-    sf::Clock clock;
-    bool gameOver = false;
-    int winner = 0;
     sf::Font font;
+    bool gameOver;
+    int winner;
+    bool waitingForKeyRelease; 
 };

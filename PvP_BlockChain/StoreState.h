@@ -3,11 +3,11 @@
 #include "State.h"
 #include "Arena.h"
 
-class StoreState {
+class StoreState : public State {  // ADD : public State
 public:
     StoreState(sf::RenderWindow& win);
-    StateID update();
-    void render();
+    StateID update(float dt) override;  // ADD float dt and override
+    void render() override;  // ADD override
 private:
     sf::RenderWindow& window;
     sf::Font font;
