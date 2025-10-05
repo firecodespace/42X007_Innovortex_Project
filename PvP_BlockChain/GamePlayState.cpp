@@ -1,10 +1,12 @@
 #include "GamePlayState.h"
+#include "MapSelectionState.h"
 
 GamePlayState::GamePlayState(sf::RenderWindow& win)
     : window(win), game(win), font(), gameOver(false), winner(0), waitingForKeyRelease(false) {
     if (!font.loadFromFile("D:/amity/testing/2nd/PvP_BlockChain/PvP_BlockChain/Resources/Images/fonts/ARCADECLASSIC.TTF")) {
-        // Handle error
+        
     }
+    game.setMapBackground(MapSelectionState::getSelectedMap());
 }
 
 StateID GamePlayState::update(float dt) {
@@ -13,12 +15,10 @@ StateID GamePlayState::update(float dt) {
         if (event.type == sf::Event::Closed)
             return StateID::Exit;
 
-        // Detect when Enter key is released
         if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Enter) {
             waitingForKeyRelease = false;
 
             if (gameOver) {
-                // Reset the game state for next play
                 gameOver = false;
                 winner = 0;
                 game.reset();
@@ -26,7 +26,6 @@ StateID GamePlayState::update(float dt) {
             }
         }
 
-        // Set flag when Enter is pressed
         if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
             waitingForKeyRelease = true;
         }

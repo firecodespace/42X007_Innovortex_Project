@@ -4,12 +4,32 @@
 #define GRAVITY 900.0f
 #define JUMP_STRENGTH 420.0f
 
+// FIXED: Made textures and font non-static and member variables
+static std::map<std::string, sf::Texture*> sharedTextures;  // Shared across all fighters
+static sf::Font sharedFont;
+static bool resourcesLoaded = false;
+
 Fighter::Fighter(float x, float y, sf::Keyboard::Key left, sf::Keyboard::Key right,
     sf::Keyboard::Key a1, sf::Keyboard::Key a2, sf::Keyboard::Key a3,
     sf::Keyboard::Key jKey, sf::Keyboard::Key sKey)
     : leftKey(left), rightKey(right), attack1Key(a1), attack2Key(a2), attack3Key(a3),
     jumpKey(jKey), shieldKey(sKey), velocityY(0), onGround(true), hp(100)
 {
+    // Load shared resources once
+    if (!resourcesLoaded) {
+        const char* files[] = { "Idle", "Walk", "Run", "Jump", "Attack 1", "Attack 2",
+                               "Attack 3", "Hurt", "Dead", "Defend", "Protect", "Run+Attack" };
+        for (int i = 0; i < 12; ++i) {
+            std::string path = "Resources/Images/sprites/" + std::string(files[i]) + ".png";
+            sf::Texture* tex = new sf::Texture();
+            if (!tex->loadFromFile(path))
+                std::cout << "ERROR: Failed to load " << files[i] << ".png" << std::endl;
+            sharedTextures[files[i]] = tex;
+        }
+        sharedFont.loadFromFile("D:/amity/testing/2nd/PvP_BlockChain/PvP_BlockChain/Resources/Images/fonts/ARCADECLASSIC.TTF");
+        resourcesLoaded = true;
+    }
+
     loadAnimations();
     sprite.setPosition(x, y);
     sprite.setScale((left == sf::Keyboard::Left) ? -2.0f : 2.0f, 2.0f);
@@ -19,31 +39,25 @@ Fighter::Fighter(float x, float y, sf::Keyboard::Key left, sf::Keyboard::Key rig
 }
 
 Fighter::~Fighter() {
-    for (auto& pair : animations) delete pair.second;
+    for (auto& pair : animations) {
+        delete pair.second;
+    }
+    animations.clear();
 }
 
 void Fighter::loadAnimations() {
-    static sf::Texture textures[12];
-    const char* files[] = { "Idle", "Walk", "Run", "Jump", "Attack 1", "Attack 2",
-                           "Attack 3", "Hurt", "Dead", "Defend", "Protect", "Run+Attack" };
-    for (int i = 0; i < 12; ++i) {
-        std::string path = "Resources/Images/sprites/" + std::string(files[i]) + ".png";
-        if (!textures[i].loadFromFile(path))
-            std::cout << "ERROR: Failed to load " << files[i] << ".png" << std::endl;
-    }
-
-    animations["IDLE"] = new Animation(textures[0], 128, 128, 4, true);
-    animations["WALK"] = new Animation(textures[1], 128, 128, 8, true);
-    animations["RUN"] = new Animation(textures[2], 128, 128, 7, true);
-    animations["JUMP"] = new Animation(textures[3], 128, 128, 6, true);
-    animations["ATTACK1"] = new Animation(textures[4], 128, 128, 6, false);
-    animations["ATTACK2"] = new Animation(textures[5], 128, 128, 6, false);
-    animations["ATTACK3"] = new Animation(textures[6], 128, 128, 4, false);
-    animations["HURT"] = new Animation(textures[7], 128, 128, 4, false);
-    animations["DEAD"] = new Animation(textures[8], 128, 128, 6, false);
-    animations["DEFEND"] = new Animation(textures[9], 128, 128, 2, true);
-    animations["PROTECT"] = new Animation(textures[10], 128, 128, 2, true);
-    animations["RUN_ATTACK"] = new Animation(textures[11], 128, 128, 6, false);
+    animations["IDLE"] = new Animation(*sharedTextures["Idle"], 128, 128, 4, true);
+    animations["WALK"] = new Animation(*sharedTextures["Walk"], 128, 128, 8, true);
+    animations["RUN"] = new Animation(*sharedTextures["Run"], 128, 128, 7, true);
+    animations["JUMP"] = new Animation(*sharedTextures["Jump"], 128, 128, 6, true);
+    animations["ATTACK1"] = new Animation(*sharedTextures["Attack 1"], 128, 128, 6, false);
+    animations["ATTACK2"] = new Animation(*sharedTextures["Attack 2"], 128, 128, 6, false);
+    animations["ATTACK3"] = new Animation(*sharedTextures["Attack 3"], 128, 128, 4, false);
+    animations["HURT"] = new Animation(*sharedTextures["Hurt"], 128, 128, 4, false);
+    animations["DEAD"] = new Animation(*sharedTextures["Dead"], 128, 128, 6, false);
+    animations["DEFEND"] = new Animation(*sharedTextures["Defend"], 128, 128, 2, true);
+    animations["PROTECT"] = new Animation(*sharedTextures["Protect"], 128, 128, 2, true);
+    animations["RUN_ATTACK"] = new Animation(*sharedTextures["Run+Attack"], 128, 128, 6, false);
 }
 
 void Fighter::update(float dt, const sf::RenderWindow& window) {
@@ -119,18 +133,11 @@ void Fighter::drawHealthBar(sf::RenderWindow& window, bool left) const {
     outline.setOutlineThickness(3);
     outline.setOutlineColor(sf::Color::Black);
 
-    static sf::Font font;
-    static bool fontLoaded = false;
-    if (!fontLoaded) {
-        font.loadFromFile("D:/amity/testing/2nd/PvP_BlockChain/PvP_BlockChain/Resources/Images/fonts/ARCADECLASSIC.TTF");
-        fontLoaded = true;
-    }
-
-    sf::Text label(left ? "PLAYER 1" : "PLAYER 2", font, 18);
+    sf::Text label(left ? "PLAYER 1" : "PLAYER 2", sharedFont, 18);
     label.setFillColor(sf::Color::Black);
     label.setPosition(x, y - 24);
 
-    sf::Text value(std::to_string(hp), font, 15);
+    sf::Text value(std::to_string(hp), sharedFont, 15);
     value.setFillColor(sf::Color::Black);
     value.setPosition(x, y + 19);
 
@@ -152,15 +159,13 @@ sf::FloatRect Fighter::getHitbox() const {
         bounds.top + bounds.height - h, w, h);
 }
 
-
 sf::FloatRect Fighter::getAttackHitbox() const {
     sf::FloatRect body = getHitbox();
-    float attackWidth = 50.f;   // Reduced from 80 - shorter reach
-    float attackHeight = 80.f;  // Reduced from 100
+    float attackWidth = 50.f;
+    float attackHeight = 80.f;
     float x = (sprite.getScale().x > 0) ? body.left + body.width : body.left - attackWidth;
     return sf::FloatRect(x, body.top + (body.height - attackHeight) / 2, attackWidth, attackHeight);
 }
-
 
 bool Fighter::isAttacking() const {
     return currentName == "ATTACK1" || currentName == "ATTACK2" || currentName == "ATTACK3";

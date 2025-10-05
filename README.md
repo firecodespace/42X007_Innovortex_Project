@@ -4,18 +4,15 @@
 
 <div align="center">
 
-![Banner](https://raw.githubusercontent.com/YOUR_USERNAME/gladiator-arena/main/assets/arena_logo.png)
-
 [![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636?style=for-the-badge&logo=solidity)](https://soliditylang.org/)
 [![C++](https://img.shields.io/badge/C++-17-00599C?style=for-the-badge&logo=cplusplus)](https://isocpp.org/)
 [![SFML](https://img.shields.io/badge/SFML-2.6-8CC445?style=for-the-badge&logo=sfml)](https://www.sfml-dev.org/)
 [![Ethereum](https://img.shields.io/badge/Ethereum-3C3C3D?style=for-the-badge&logo=ethereum)](https://ethereum.org/)
-[![MetaMask](https://img.shields.io/badge/MetaMask-F6851B?style=for-the-badge&logo=metamask&logoColor=white)](https://metamask.io/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
 **A fully on-chain gladiator fighting game where battles, NFT ownership, and trading happen directly on the blockchain.**
 
-[🎮 Play Demo](#installation) • [📖 Documentation](#documentation) • [🤝 Contributing](#contributing) • [🌐 Website](#)
+[🎮 Play Demo]([#installation](https://drive.google.com/file/d/1rZs6O1J-gPd5GS4QHuYRJ14zMaHlMJPY/view?usp=sharing)) • [📖 Documentation]([#documentation](https://drive.google.com/file/d/16PswiVje0G_eJIBWfSSS1bRE25wuJjk9/view?usp=sharing))
 
 </div>
 
@@ -79,7 +76,7 @@ B[WalletConnect SDK]
 end
 
 subgraph "Wallet Layer"
-    C[MetaMask Mobile/Extension]
+
 end
 
 subgraph "Blockchain Layer"

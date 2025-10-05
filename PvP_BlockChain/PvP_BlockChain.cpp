@@ -9,79 +9,76 @@
 int main() {
     sf::RenderWindow window(sf::VideoMode(960, 540), "Pixel PvP Arena");
     StateID currentState = StateID::MainMenu;
-    StateID previousState = StateID::MainMenu;
+    StateID previousState = StateID::Exit;
 
-    // Create state pointers
-    State* mainMenu = nullptr;
-    State* gamePlay = nullptr;
-    State* pauseMenu = nullptr;
-    State* storeMenu = nullptr;
-    State* mapSelection = nullptr;
+    // Use separate pointers for each state type
+    MainMenuState* mainMenu = nullptr;
+    MapSelectionState* mapSelection = nullptr;
+    GamePlayState* gamePlay = nullptr;
+    PauseGameState* pauseMenu = nullptr;
+    StoreState* storeMenu = nullptr;
+
+    State* currentStatePtr = nullptr;
 
     sf::Clock clock;
 
     while (window.isOpen() && currentState != StateID::Exit) {
         float dt = clock.restart().asSeconds();
 
-        // Recreate state ONLY when transitioning
+        // Only recreate state when transitioning
         if (currentState != previousState) {
-            // Clean up old state
-            if (previousState == StateID::MainMenu) delete mainMenu;
-            if (previousState == StateID::GamePlay) delete gamePlay;
-            if (previousState == StateID::PauseGame) delete pauseMenu;
-            if (previousState == StateID::Store) delete storeMenu;
-            if (previousState == StateID::MapSelection) delete mapSelection;  // ADD THIS
-
-            // Create new state
-            if (currentState == StateID::MainMenu) mainMenu = new MainMenuState(window);
-            if (currentState == StateID::GamePlay) gamePlay = new GamePlayState(window);
-            if (currentState == StateID::PauseGame) pauseMenu = new PauseGameState(window);
-            if (currentState == StateID::Store) storeMenu = new StoreState(window);
-            if (currentState == StateID::MapSelection) mapSelection = new MapSelectionState(window);  // ADD THIS
+            // Create states ONCE and reuse them (except GamePlay which is recreated)
+            switch (currentState) {
+            case StateID::MainMenu:
+                if (!mainMenu) mainMenu = new MainMenuState(window);
+                currentStatePtr = mainMenu;
+                break;
+            case StateID::MapSelection:
+                if (!mapSelection) mapSelection = new MapSelectionState(window);
+                currentStatePtr = mapSelection;
+                break;
+            case StateID::GamePlay:
+                // CRITICAL FIX: Delete OLD gamePlay ONLY if it exists and we're coming FROM gameplay
+                if (gamePlay && previousState == StateID::GamePlay) {
+                    delete gamePlay;
+                    gamePlay = nullptr;
+                }
+                // Now create fresh GamePlayState
+                gamePlay = new GamePlayState(window);
+                currentStatePtr = gamePlay;
+                break;
+            case StateID::PauseGame:
+                if (!pauseMenu) pauseMenu = new PauseGameState(window);
+                currentStatePtr = pauseMenu;
+                break;
+            case StateID::Store:
+                if (!storeMenu) storeMenu = new StoreState(window);
+                currentStatePtr = storeMenu;
+                break;
+            default:
+                break;
+            }
 
             previousState = currentState;
         }
 
         // Run current state
-        switch (currentState) {
-        case StateID::MainMenu:
-            if (!mainMenu) mainMenu = new MainMenuState(window);
-            currentState = mainMenu->update(dt);
-            mainMenu->render();
-            break;
-        case StateID::MapSelection:  // ADD THIS CASE
-            if (!mapSelection) mapSelection = new MapSelectionState(window);
-            currentState = mapSelection->update(dt);
-            mapSelection->render();
-            break;
-        case StateID::GamePlay:
-            if (!gamePlay) gamePlay = new GamePlayState(window);
-            currentState = gamePlay->update(dt);
-            gamePlay->render();
-            break;
-        case StateID::PauseGame:
-            if (!pauseMenu) pauseMenu = new PauseGameState(window);
-            currentState = pauseMenu->update(dt);
-            pauseMenu->render();
-            break;
-        case StateID::Store:
-            if (!storeMenu) storeMenu = new StoreState(window);
-            currentState = storeMenu->update(dt);
-            storeMenu->render();
-            break;
-        case StateID::Exit:
+        if (currentStatePtr) {
+            currentState = currentStatePtr->update(dt);
+            currentStatePtr->render();
+        }
+
+        if (currentState == StateID::Exit) {
             window.close();
-            break;
-        default: break;
         }
     }
 
-    // Cleanup
-    delete mainMenu;
-    delete gamePlay;
-    delete pauseMenu;
-    delete storeMenu;
-    delete mapSelection;  // ADD THIS
+    // Cleanup all states
+    if (mainMenu) delete mainMenu;
+    if (mapSelection) delete mapSelection;
+    if (gamePlay) delete gamePlay;
+    if (pauseMenu) delete pauseMenu;
+    if (storeMenu) delete storeMenu;
 
     return 0;
 }
