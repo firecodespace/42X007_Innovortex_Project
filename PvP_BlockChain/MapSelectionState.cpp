@@ -27,8 +27,8 @@ void MapSelectionState::initMapButtons() {
     for (int i = 0; i < 4; ++i) {
         sf::Text t;
         initText(t, labels[i], startX, startY + i * spacing);
-        if (i == selectedMapIndex) {
-            t.setFillColor(sf::Color::Yellow);  // Highlight selected map
+        if (i == selectedMapIndex && i < 3) {
+            t.setFillColor(sf::Color::Yellow);
         }
         mapButtons.push_back(t);
     }
@@ -48,11 +48,11 @@ StateID MapSelectionState::update(float dt) {
             auto pos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
             for (size_t i = 0; i < mapButtons.size(); ++i) {
                 if (mapButtons[i].getGlobalBounds().contains(pos)) {
-                    if (i < 3) {  // Map selection
+                    if (i < 3) {
                         selectedMapIndex = i;
-                        return StateID::GamePlay;  // Start game with selected map
+                        return StateID::GamePlay;
                     }
-                    else {  // Back button
+                    else {
                         return StateID::MainMenu;
                     }
                 }

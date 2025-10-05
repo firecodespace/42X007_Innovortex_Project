@@ -1,11 +1,19 @@
 #include "Game.h"
+#include <iostream>
 
 Game::Game(sf::RenderWindow& win)
     : window(win),
     arena("D:/amity/testing/2nd/PvP_BlockChain/PvP_BlockChain/Resources/Images/Background/arena.jpg", win.getSize()),
-    fighter1(nullptr),
-    fighter2(nullptr),
+    player1(200.f, win.getSize().y - 128.f * 2.0f - 12,
+        sf::Keyboard::A, sf::Keyboard::D,
+        sf::Keyboard::F, sf::Keyboard::G, sf::Keyboard::H,
+        sf::Keyboard::W, sf::Keyboard::Q),
+    player2(700.f, win.getSize().y - 128.f * 2.0f - 12,
+        sf::Keyboard::Left, sf::Keyboard::Right,
+        sf::Keyboard::Numpad1, sf::Keyboard::Numpad2, sf::Keyboard::Numpad3,
+        sf::Keyboard::Up, sf::Keyboard::RControl),
     running(true),
+    winner(0),
     hit1ThisFrame(false),
     hit2ThisFrame(false)
 {
@@ -15,43 +23,42 @@ Game::Game(sf::RenderWindow& win)
     music.setLoop(true);
     music.setVolume(50);
     music.play();
+}
 
-    reset();
+// ADD DESTRUCTOR TO STOP MUSIC BEFORE DESTRUCTION
+Game::~Game() {
+    music.stop();  // CRITICAL: Stop music before object is destroyed
 }
 
 void Game::reset() {
-    if (fighter1) delete fighter1;
-    if (fighter2) delete fighter2;
-
-    fighter1 = new Fighter(
+    player1 = Fighter(
         200.f, window.getSize().y - 128.f * 2.0f - 12,
         sf::Keyboard::A, sf::Keyboard::D,
         sf::Keyboard::F, sf::Keyboard::G, sf::Keyboard::H,
         sf::Keyboard::W, sf::Keyboard::Q);
 
-    fighter2 = new Fighter(
+    player2 = Fighter(
         700.f, window.getSize().y - 128.f * 2.0f - 12,
         sf::Keyboard::Left, sf::Keyboard::Right,
         sf::Keyboard::Numpad1, sf::Keyboard::Numpad2, sf::Keyboard::Numpad3,
         sf::Keyboard::Up, sf::Keyboard::RControl);
 
     running = true;
+    winner = 0;
     hit1ThisFrame = false;
     hit2ThisFrame = false;
 }
 
 void Game::update(float dt) {
-    fighter1->update(dt, window);
-    fighter2->update(dt, window);
+    player1.update(dt, window);
+    player2.update(dt, window);
 
-    // Fighter 1 attacking Fighter 2
-    if (fighter1->isAttacking()) {
-        // Check BOTH attack hitbox AND body overlap for close range
-        bool hitboxOverlap = fighter1->getAttackHitbox().intersects(fighter2->getHitbox());
-        bool closeRange = fighter1->getHitbox().intersects(fighter2->getHitbox());
+    if (player1.isAttacking()) {
+        bool hitboxOverlap = player1.getAttackHitbox().intersects(player2.getHitbox());
+        bool closeRange = player1.getHitbox().intersects(player2.getHitbox());
 
-        if ((hitboxOverlap || closeRange) && !fighter2->isShielding() && !hit2ThisFrame) {
-            fighter2->hurt(10);
+        if ((hitboxOverlap || closeRange) && !player2.isShielding() && !hit2ThisFrame) {
+            player2.hurt(10);
             hit2ThisFrame = true;
         }
     }
@@ -59,14 +66,12 @@ void Game::update(float dt) {
         hit2ThisFrame = false;
     }
 
-    // Fighter 2 attacking Fighter 1
-    if (fighter2->isAttacking()) {
-        // Check BOTH attack hitbox AND body overlap for close range
-        bool hitboxOverlap = fighter2->getAttackHitbox().intersects(fighter1->getHitbox());
-        bool closeRange = fighter2->getHitbox().intersects(fighter1->getHitbox());
+    if (player2.isAttacking()) {
+        bool hitboxOverlap = player2.getAttackHitbox().intersects(player1.getHitbox());
+        bool closeRange = player2.getHitbox().intersects(player1.getHitbox());
 
-        if ((hitboxOverlap || closeRange) && !fighter1->isShielding() && !hit1ThisFrame) {
-            fighter1->hurt(10);
+        if ((hitboxOverlap || closeRange) && !player1.isShielding() && !hit1ThisFrame) {
+            player1.hurt(10);
             hit1ThisFrame = true;
         }
     }
@@ -74,20 +79,19 @@ void Game::update(float dt) {
         hit1ThisFrame = false;
     }
 
-    if (fighter1->getHP() <= 0 || fighter2->getHP() <= 0)
+    if (player1.getHP() <= 0 || player2.getHP() <= 0)
         running = false;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         running = false;
 }
 
-
 void Game::render() {
     arena.draw(window);
-    fighter1->draw(window);
-    fighter2->draw(window);
-    fighter1->drawHealthBar(window, true);
-    fighter2->drawHealthBar(window, false);
+    player1.draw(window);
+    player2.draw(window);
+    player1.drawHealthBar(window, true);
+    player2.drawHealthBar(window, false);
 }
 
 bool Game::isRunning() const {
@@ -95,8 +99,28 @@ bool Game::isRunning() const {
 }
 
 int Game::getWinner() const {
-    if (fighter1->getHP() <= 0 && fighter2->getHP() <= 0) return 0;
-    if (fighter1->getHP() <= 0) return 2;
-    if (fighter2->getHP() <= 0) return 1;
+    if (player1.getHP() <= 0 && player2.getHP() <= 0) return 0;
+    if (player1.getHP() <= 0) return 2;
+    if (player2.getHP() <= 0) return 1;
     return 0;
+}
+
+void Game::setMapBackground(int mapIndex) {
+    std::string mapPath;
+
+    switch (mapIndex) {
+    case 0:
+        mapPath = "D:/amity/testing/2nd/PvP_BlockChain/PvP_BlockChain/Resources/Images/Background/arena.jpg";
+        break;
+    case 1:
+        mapPath = "D:/amity/testing/2nd/PvP_BlockChain/PvP_BlockChain/Resources/Images/Background/desert.jpg";
+        break;
+    case 2:
+        mapPath = "D:/amity/testing/2nd/PvP_BlockChain/PvP_BlockChain/Resources/Images/Background/forest.jpg";
+        break;
+    default:
+        mapPath = "D:/amity/testing/2nd/PvP_BlockChain/PvP_BlockChain/Resources/Images/Background/arena.jpg";
+    }
+
+    arena.setBackground(mapPath);
 }

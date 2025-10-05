@@ -1,25 +1,27 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include "BackgroundVideo.h"
 #include "Fighter.h"
-#include <iostream>
+#include "Arena.h"
 
 class Game {
 public:
     Game(sf::RenderWindow& win);
-    void reset();
+    ~Game();  // ADD THIS LINE
     void update(float dt);
     void render();
+    void reset();
     bool isRunning() const;
     int getWinner() const;
+    void setMapBackground(int mapIndex);
 
 private:
     sf::RenderWindow& window;
-    BackgroundVideo arena;
-    Fighter* fighter1;
-    Fighter* fighter2;
+    Fighter player1;
+    Fighter player2;
+    Arena arena;
     bool running;
+    int winner;
     bool hit1ThisFrame;
     bool hit2ThisFrame;
     sf::Music music;

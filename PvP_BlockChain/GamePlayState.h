@@ -15,5 +15,5 @@ private:
     sf::Font font;
     bool gameOver;
     int winner;
-    bool waitingForKeyRelease; 
+    bool waitingForKeyRelease;
 };
