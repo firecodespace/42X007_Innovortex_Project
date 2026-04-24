@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>  // ADD THIS
+#include <SFML/Audio.hpp>
 #include "State.h"
 #include "Arena.h"
 
@@ -14,7 +14,7 @@ private:
     sf::Font font;
     std::vector<sf::Text> buttons;
     Arena arena;
-    sf::Music music;  // ADD THIS
+    sf::Music music;
     void initText(sf::Text& text, const std::string& str, float x, float y);
 
     // Wallet input
@@ -24,4 +24,12 @@ private:
     bool inputActive2 = false;
     sf::Text inputText1;
     sf::Text inputText2;
+
+    // Optional gladiator character token IDs (digits) for on-chain recordVictory
+    std::string inputCharToken1;
+    std::string inputCharToken2;
+    bool inputActiveChar1 = false;
+    bool inputActiveChar2 = false;
+    sf::Text inputTextChar1;
+    sf::Text inputTextChar2;
 };

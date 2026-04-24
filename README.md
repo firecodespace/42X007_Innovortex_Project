@@ -1,130 +1,93 @@
-![WhatsApp Image 2025-10-04 at 23 22 25_3172defc](https://github.com/user-attachments/assets/821cffc0-fa6b-46e6-b90d-8deccbba31cf)
+# Gladiator Arena
 
-# ⚔️ Gladiator Arena - On-Chain Combat Game
+Gladiator Arena is a hybrid project: a native SFML fighting game paired with an on-chain backend for character ownership, battle rewards, weapons, currency, battle trophies, and marketplace listings (contracts + Node bridge).
 
-<div align="center">
+## What is in this repo
 
-[![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636?style=for-the-badge&logo=solidity)](https://soliditylang.org/)
-[![C++](https://img.shields.io/badge/C++-17-00599C?style=for-the-badge&logo=cplusplus)](https://isocpp.org/)
-[![SFML](https://img.shields.io/badge/SFML-2.6-8CC445?style=for-the-badge&logo=sfml)](https://www.sfml-dev.org/)
-[![Ethereum](https://img.shields.io/badge/Ethereum-3C3C3D?style=for-the-badge&logo=ethereum)](https://ethereum.org/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
+- **`PvP_BlockChain/`** — Main C++/SFML game client (Windows HTTP for bridge calls).
+- **`blockchain/`** — Hardhat project; contracts live in `contracts/GladiatorArenaSystem.sol`.
+- **`node_bridge/`** — Express server that signs transactions with a deployer key for local demos.
+- **`web/`** — Static download page for packaged builds.
+- **`GladiatorSFML/`** — **Experimental / optional** ImGui + SFML menu shell (not wired to the bridge or the main game loop). Use **`PvP_BlockChain`** as the supported client.
 
-**A fully on-chain gladiator fighting game where battles, NFT ownership, and trading happen directly on the blockchain.**
+## Current product scope (what is actually wired)
 
-[🎮 Play Demo]([#installation](https://drive.google.com/file/d/1rZs6O1J-gPd5GS4QHuYRJ14zMaHlMJPY/view?usp=sharing)) • [📖 Documentation]([#documentation](https://drive.google.com/file/d/16PswiVje0G_eJIBWfSSS1bRE25wuJjk9/view?usp=sharing))
+| Feature | Status |
+|--------|--------|
+| Local two-player combat | Implemented in `PvP_BlockChain`. |
+| Wallet addresses on main menu | Used as `player1` / `player2` in battle settlement. |
+| Optional **character token IDs** (digits) on main menu | Sent as `winnerCharacterId` to the bridge so `BattleArena` can call `recordVictory` for the winning player’s gladiator when set. |
+| Post-match settlement + trophy + AGLD reward | Game → `POST /mintNFT` on the bridge → `BattleArena.settleBattle`. |
+| Store → bridge (demo) | **Wallet** submenu: ping `/health`, mint demo AGLD to Player1 via `/currency/mint`. **Weapons** submenu: mint Iron Sword (id 1) or Aegis Shield (id 2) via `/weapons/mint` to Player1’s wallet. **Offline upgrades** submenu: local-only gold (not on-chain). |
+| Marketplace list/buy (characters / weapons) | Implemented **in contracts and bridge HTTP API** only; not exposed inside the SFML UI (use curl/Postman or a small dapp against the bridge for demos). |
 
-</div>
+## Bridge configuration (game client)
 
----
+The client reads optional JSON at **`Resources/bridge_config.json`** (search path includes the working directory and `PvP_BlockChain/` — see `ResourcePaths.cpp`). If the file is missing, defaults match local bridge defaults.
 
-## 🌟 Overview
+Copy and edit the example:
 
-**Gladiator Arena** is a revolutionary blockchain-based combat game that combines the performance of native C++/SFML graphics with the security and ownership guarantees of Ethereum smart contracts. Players mint unique gladiator NFTs, engage in verifiable on-chain battles, earn cryptocurrency rewards, and trade weapons in a fully decentralized marketplace.
+- [`PvP_BlockChain/Resources/bridge_config.example.json`](PvP_BlockChain/Resources/bridge_config.example.json) → `Resources/bridge_config.json`
 
-### 🎯 Key Features
+Supported keys:
 
-- **🏛️ True Asset Ownership**: Characters and weapons are ERC-721/ERC-1155 NFTs owned by players
-- **⚔️ Provably Fair Combat**: Battle outcomes determined by Chainlink VRF (Verifiable Random Functions)
-- **💰 Play-to-Earn Economy**: Win battles to earn on-chain currency tokens
-- **🛡️ Upgradeable Assets**: Enhance character stats and weapon tiers using earned tokens
-- **🤝 Decentralized Trading**: P2P marketplace for buying, selling, and swapping NFTs
-- **🎨 Native Performance**: Smooth 60fps gameplay with C++/SFML rendering engine
-- **🔐 MetaMask Integration**: Secure wallet connection via WalletConnect protocol
+- `baseUrl` — e.g. `http://localhost:3000`
+- `mintPath` — default `/mintNFT`
+- `weaponName` — string sent in the battle settlement JSON (metadata / display)
 
----
+## Architecture
 
-## 🎮 Gameplay
-graph LR
-A[Mint Character NFT] --> B[Equip Weapons]
-B --> C[Enter Battle Arena]
-C --> D{Battle Resolution
-Chainlink VRF}
-D -->|Victory| E[Earn Currency Tokens]
-D -->|Defeat| F[Gain Experience]
-E --> G[Upgrade Stats]
-E --> H[Buy New Weapons]
-G --> C
-H --> B
-F --> C
+1. The SFML game runs locally and resolves a match.
+2. The winner confirms settlement in the client.
+3. The client posts JSON to `node_bridge` (URL from `bridge_config.json`).
+4. The bridge calls `BattleArena.settleBattle` on-chain.
+5. `BattleArena` mints arena currency to the winner, mints a trophy NFT, and optionally calls `GladiatorCharacter.recordVictory` when `winnerCharacterId` is non-zero.
 
-style A fill:#4CAF50
-style E fill:#FFD700
-style D fill:#2196F3
+## Local setup
 
+### 1. Blockchain
 
-### Battle Flow
+```powershell
+cd blockchain
+copy .env.example .env
+npm install
+npm run compile
+npm test
+```
 
-1. **Mint Your Gladiator**: Create a unique character NFT with randomized base stats (Strength, Defense, Speed, Health)
-2. **Arm Your Warrior**: Equip weapons from your inventory or purchase from the marketplace
-3. **Challenge Opponents**: Initiate battles with other players or AI-controlled gladiators
-4. **Verifiable Combat**: Battle outcomes calculated on-chain using Chainlink VRF for fair randomness
-5. **Claim Rewards**: Winners receive currency tokens minted directly to their wallet
-6. **Upgrade & Trade**: Spend tokens to enhance stats or trade assets on the decentralized marketplace
+Start a local chain in a separate shell if needed, then deploy:
 
----
+```powershell
+npm run deploy:local
+```
 
-## 🏗️ Architecture
+That writes `blockchain/deployments.generated.json` and `node_bridge/contracts.generated.json` (when the path is writable).
 
-### System Overview
+### 2. Bridge
 
-graph TB
-subgraph "Client Layer"
-A[C++ Game Client
-SFML Graphics]
-B[WalletConnect SDK]
-end
+```powershell
+cd node_bridge
+copy .env.example .env
+npm install
+npm start
+```
 
-subgraph "Wallet Layer"
+### 3. Game client
 
-end
+```powershell
+cd PvP_BlockChain
+cmake -S . -B build
+cmake --build build --config Release
+```
 
-subgraph "Blockchain Layer"
-    D[Character NFT Contract<br/>ERC-721]
-    E[Weapon NFT Contract<br/>ERC-1155]
-    F[Battle Arena Contract]
-    G[Currency Token<br/>ERC-20]
-    H[Marketplace Contract]
-    I[Chainlink VRF Oracle]
-end
+Run the built executable with the `Resources/` folder beside it (or from a directory where `findResourcePath` can resolve `Resources/`).
 
-A <-->|QR Code Session| B
-B <-->|Sign Transactions| C
-C -->|Submit TX| D
-C -->|Submit TX| E
-C -->|Submit TX| F
-C -->|Submit TX| H
-F <-->|Request Randomness| I
-F -->|Mint Rewards| G
-D -.->|Owns| G
-E -.->|Holds| D
+## Platform notes
 
-style A fill:#00599C
-style C fill:#F6851B
-style F fill:#627EEA
-style I fill:#375BD2
+- **HTTP in the game** is implemented with **WinHTTP** (`PvP_BlockChain/http_client.cpp`). Non-Windows builds compile but bridge calls return an error string unless you add a portable HTTP backend.
 
+## Important note on marketplace endpoints
 
-### Smart Contract Architecture
+The bridge includes marketplace endpoints that accept raw private keys. That is only for local private-chain demos. A real production deployment would move those actions to user-signed wallet transactions rather than server-side key handling.
 
-| Contract | Standard | Purpose |
-|----------|----------|---------|
-| **GladiatorCharacter** | ERC-721 | Unique fighter NFTs with upgradeable stats |
-| **WeaponNFT** | ERC-1155 | Semi-fungible weapons with rarity tiers |
-| **BattleArena** | Custom | Combat resolution with VRF integration |
-| **ArenaCurrency** | ERC-20 | Fungible reward tokens for upgrades |
-| **Marketplace** | Custom | P2P trading and fixed-price listings |
-
----
-
-## 🚀 Installation
-
-### Prerequisites
-
-System Requirements
-C++17 compiler (GCC 9+, Clang 10+, or MSVC 2019+)
-
-SFML 2.6+
-
-Node.js 18+
-### Clone & Build
+Battle settlement from the game is also **server-signed** via `PRIVATE_KEY` on the bridge — appropriate for local testing only.

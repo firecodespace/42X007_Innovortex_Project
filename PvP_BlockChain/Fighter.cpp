@@ -1,4 +1,5 @@
 #include "Fighter.h"
+#include "ResourcePaths.h"
 #include <iostream>
 
 #define GRAVITY 900.0f
@@ -20,13 +21,13 @@ Fighter::Fighter(float x, float y, sf::Keyboard::Key left, sf::Keyboard::Key rig
         const char* files[] = { "Idle", "Walk", "Run", "Jump", "Attack 1", "Attack 2",
                                "Attack 3", "Hurt", "Dead", "Defend", "Protect", "Run+Attack" };
         for (int i = 0; i < 12; ++i) {
-            std::string path = "Resources/Images/sprites/" + std::string(files[i]) + ".png";
+            std::string path = findResourcePath("Resources/Images/sprites/" + std::string(files[i]) + ".png");
             sf::Texture* tex = new sf::Texture();
             if (!tex->loadFromFile(path))
                 std::cout << "ERROR: Failed to load " << files[i] << ".png" << std::endl;
             sharedTextures[files[i]] = tex;
         }
-        sharedFont.loadFromFile("D:/amity/testing/2nd/PvP_BlockChain/PvP_BlockChain/Resources/Images/fonts/ARCADECLASSIC.TTF");
+        sharedFont.loadFromFile(findResourcePath("Resources/Images/fonts/ARCADECLASSIC.TTF"));
         resourcesLoaded = true;
     }
 

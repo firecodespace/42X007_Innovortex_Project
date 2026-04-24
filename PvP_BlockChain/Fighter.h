@@ -22,7 +22,7 @@ public:
     sf::FloatRect getAttackHitbox() const;
     bool isAttacking() const;
     bool isShielding() const;
-    bool canDealDamage() const;  // NEW: Check if attack can deal damage
+    bool canDealDamage() const;
     void drawDebugHitbox(sf::RenderWindow& window) const;
 
 private:
@@ -31,7 +31,7 @@ private:
     std::map<std::string, Animation*> animations;
     Animation* currentAnimation = nullptr;
     std::string currentName;
-    std::string previousName;  // NEW: Track previous animation
+    std::string previousName;
     int hp = 100;
     sf::Keyboard::Key leftKey, rightKey, attack1Key, attack2Key, attack3Key, jumpKey, shieldKey;
     bool onGround = true;

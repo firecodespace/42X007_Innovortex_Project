@@ -1,13 +1,20 @@
 #pragma once
+
 #include <SFML/Graphics.hpp>
+#include <atomic>
+#include <mutex>
+#include <string>
+
+#include "BridgeConfig.h"
 #include "State.h"
 #include "Arena.h"
 
-class StoreState : public State {  // ADD : public State
+class StoreState : public State {
 public:
-    StoreState(sf::RenderWindow& win);
-    StateID update(float dt) override;  // ADD float dt and override
-    void render() override;  // ADD override
+    explicit StoreState(sf::RenderWindow& win);
+    StateID update(float dt) override;
+    void render() override;
+
 private:
     sf::RenderWindow& window;
     sf::Font font;
@@ -21,8 +28,14 @@ private:
     std::vector<sf::Text> weaponTexts;
     std::vector<sf::Text> upgradeTexts;
 
-    bool walletConnected = false;
-    int gold = 250;
+    BridgeSettings bridge_;
+    std::mutex bridgeMutex_;
+    std::string bridgeStatusLine_;
+    std::string pendingWalletLabel_;
+    bool bridgeBusy_ = false;
+
+    std::atomic<bool> walletConnected_{false};
+    int localGold_ = 250;
 
     void initMainMenu();
     void initWalletMenu();
@@ -30,4 +43,11 @@ private:
     void initUpgradeMenu();
     void drawTexts(const std::vector<sf::Text>& texts);
     void initText(sf::Text& text, const std::string& str, float x, float y);
+
+    void setBridgeStatus(const std::string& line);
+    void setPendingWalletLabel(const std::string& line);
+    void applyPendingUiFromBridge();
+    bool tryBeginBridgeRequest();
+    void endBridgeRequest();
+    static bool isPlausibleWallet(const std::string& w);
 };

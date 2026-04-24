@@ -3,11 +3,11 @@
 #include "State.h"
 #include "Arena.h"
 
-class PauseGameState : public State {  // ADD : public State
+class PauseGameState : public State {
 public:
     PauseGameState(sf::RenderWindow& win);
-    StateID update(float dt) override;  // ADD float dt and override
-    void render() override;  // ADD override
+    StateID update(float dt) override;
+    void render() override;
 private:
     sf::RenderWindow& window;
     sf::Font font;

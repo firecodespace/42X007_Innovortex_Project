@@ -1,0 +1,20 @@
+{
+  "name": "gladiator-arena-blockchain",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Hardhat contracts for Gladiator Arena",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:local": "node scripts/deploy.js",
+    "deploy:sepolia": "node scripts/deploy.js"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "5.0.2",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.18"
+  }
+}

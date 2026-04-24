@@ -1,14 +1,15 @@
 #include "MainMenuState.h"
+#include "ResourcePaths.h"
 #include "Wallets.h"
 
 MainMenuState::MainMenuState(sf::RenderWindow& win)
     : window(win),
-    arena("Resources/Images/Video/ezgif-frame-001.jpg", win.getSize())
+    arena(findResourcePath("Resources/Images/Video/ezgif-frame-001.jpg"), win.getSize())
 {
-    font.loadFromFile("D:/amity/testing/2nd/PvP_BlockChain/PvP_BlockChain/Resources/Images/fonts/ARCADECLASSIC.TTF");
+    font.loadFromFile(findResourcePath("Resources/Images/fonts/ARCADECLASSIC.TTF"));
 
     // Load and play background music
-    if (music.openFromFile("Resources/Music/retro-arcade-game-music-297305.mp3")) {
+    if (music.openFromFile(findResourcePath("Resources/Music/retro-arcade-game-music-297305.mp3"))) {
         music.setLoop(true);
         music.setVolume(50);
         music.play();
@@ -28,14 +29,27 @@ MainMenuState::MainMenuState(sf::RenderWindow& win)
     inputText1.setFont(font);
     inputText1.setCharacterSize(20);
     inputText1.setFillColor(sf::Color::White);
-    inputText1.setPosition(40.f, startY - 120.f);
     inputText1.setString("Player1 Wallet: ");
 
     inputText2.setFont(font);
     inputText2.setCharacterSize(20);
     inputText2.setFillColor(sf::Color::White);
-    inputText2.setPosition(40.f, startY - 80.f);
+    inputText2.setPosition(40.f, startY - 165.f);
     inputText2.setString("Player2 Wallet: ");
+
+    inputTextChar1.setFont(font);
+    inputTextChar1.setCharacterSize(18);
+    inputTextChar1.setFillColor(sf::Color(200, 220, 255));
+    inputTextChar1.setPosition(40.f, startY - 130.f);
+    inputTextChar1.setString("P1 Character token ID (optional): ");
+
+    inputTextChar2.setFont(font);
+    inputTextChar2.setCharacterSize(18);
+    inputTextChar2.setFillColor(sf::Color(200, 220, 255));
+    inputTextChar2.setPosition(40.f, startY - 100.f);
+    inputTextChar2.setString("P2 Character token ID (optional): ");
+
+    inputText1.setPosition(40.f, startY - 200.f);
 }
 
 void MainMenuState::initText(sf::Text& text, const std::string& str, float x, float y) {
@@ -58,9 +72,10 @@ StateID MainMenuState::update(float dt) {
                     music.stop();  // Stop music when leaving menu
                     switch (i) {
                     case 0: {
-                        // Before starting game, set global wallets
                         g_player1_wallet = inputPlayer1.empty() ? "0xPlayer1Placeholder" : inputPlayer1;
                         g_player2_wallet = inputPlayer2.empty() ? "0xPlayer2Placeholder" : inputPlayer2;
+                        g_player1_character_token_id = inputCharToken1;
+                        g_player2_character_token_id = inputCharToken2;
                         return StateID::GamePlay;
                     }
                     case 1: return StateID::MapSelection;
@@ -70,26 +85,53 @@ StateID MainMenuState::update(float dt) {
                 }
             }
 
-            // click on input areas
             if (inputText1.getGlobalBounds().contains(pos)) {
-                inputActive1 = true; inputActive2 = false;
+                inputActive1 = true;
+                inputActive2 = inputActiveChar1 = inputActiveChar2 = false;
             } else if (inputText2.getGlobalBounds().contains(pos)) {
-                inputActive2 = true; inputActive1 = false;
+                inputActive2 = true;
+                inputActive1 = inputActiveChar1 = inputActiveChar2 = false;
+            } else if (inputTextChar1.getGlobalBounds().contains(pos)) {
+                inputActiveChar1 = true;
+                inputActive1 = inputActive2 = inputActiveChar2 = false;
+            } else if (inputTextChar2.getGlobalBounds().contains(pos)) {
+                inputActiveChar2 = true;
+                inputActive1 = inputActive2 = inputActiveChar1 = false;
             } else {
-                inputActive1 = inputActive2 = false;
+                inputActive1 = inputActive2 = inputActiveChar1 = inputActiveChar2 = false;
             }
         }
 
-        // Text entered handling
         if (event.type == sf::Event::TextEntered) {
-            auto unicode = event.text.unicode;
-            if (unicode == 8) { // backspace
-                if (inputActive1 && !inputPlayer1.empty()) inputPlayer1.pop_back();
-                if (inputActive2 && !inputPlayer2.empty()) inputPlayer2.pop_back();
+            const auto unicode = event.text.unicode;
+            if (unicode == 8) {
+                if (inputActive1 && !inputPlayer1.empty()) {
+                    inputPlayer1.pop_back();
+                }
+                if (inputActive2 && !inputPlayer2.empty()) {
+                    inputPlayer2.pop_back();
+                }
+                if (inputActiveChar1 && !inputCharToken1.empty()) {
+                    inputCharToken1.pop_back();
+                }
+                if (inputActiveChar2 && !inputCharToken2.empty()) {
+                    inputCharToken2.pop_back();
+                }
+            } else if (inputActiveChar1 || inputActiveChar2) {
+                if (unicode >= '0' && unicode <= '9') {
+                    auto& target = inputActiveChar1 ? inputCharToken1 : inputCharToken2;
+                    if (target.size() < 20) {
+                        target.push_back(static_cast<char>(unicode));
+                    }
+                }
             } else if (unicode < 128) {
-                char c = static_cast<char>(unicode);
-                if (inputActive1) inputPlayer1.push_back(c);
-                if (inputActive2) inputPlayer2.push_back(c);
+                const char c = static_cast<char>(unicode);
+                if (inputActive1) {
+                    inputPlayer1.push_back(c);
+                }
+                if (inputActive2) {
+                    inputPlayer2.push_back(c);
+                }
             }
         }
     }
@@ -122,6 +164,14 @@ void MainMenuState::render() {
     sf::Text label2 = inputText2;
     label2.setString(std::string("Player2 Wallet: ") + inputPlayer2 + (inputActive2 ? "|" : ""));
     window.draw(label2);
+
+    sf::Text c1 = inputTextChar1;
+    c1.setString(std::string("P1 Character token ID (optional): ") + inputCharToken1 + (inputActiveChar1 ? "|" : ""));
+    window.draw(c1);
+
+    sf::Text c2 = inputTextChar2;
+    c2.setString(std::string("P2 Character token ID (optional): ") + inputCharToken2 + (inputActiveChar2 ? "|" : ""));
+    window.draw(c2);
 
     window.display();
 }

@@ -1,11 +1,12 @@
 #include "MapSelectionState.h"
+#include "ResourcePaths.h"
 
 int MapSelectionState::selectedMapIndex = 0;
 
 MapSelectionState::MapSelectionState(sf::RenderWindow& win)
     : window(win),
-    arena("Resources/Images/Video/ezgif-frame-001.jpg", win.getSize()) {
-    font.loadFromFile("D:/amity/testing/2nd/PvP_BlockChain/PvP_BlockChain/Resources/Images/fonts/ARCADECLASSIC.TTF");
+    arena(findResourcePath("Resources/Images/Video/ezgif-frame-001.jpg"), win.getSize()) {
+    font.loadFromFile(findResourcePath("Resources/Images/fonts/ARCADECLASSIC.TTF"));
     initMapButtons();
 }
 

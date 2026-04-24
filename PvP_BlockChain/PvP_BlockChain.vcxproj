@@ -142,6 +142,7 @@
     <ClCompile Include="MapSelectionState.cpp" />
     <ClCompile Include="PauseGameState.cpp" />
     <ClCompile Include="PvP_BlockChain.cpp" />
+  <ClCompile Include="ResourcePaths.cpp" />
   <ClCompile Include="Wallets.cpp" />
   <ClCompile Include="http_client.cpp" />
     <ClCompile Include="State.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="MapSelectionState.h" />
     <ClInclude Include="PauseGameState.h" />
+    <ClInclude Include="ResourcePaths.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StoreState.h" />
   <ClInclude Include="Wallets.h" />

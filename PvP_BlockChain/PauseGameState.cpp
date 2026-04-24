@@ -1,9 +1,10 @@
 #include "PauseGameState.h"
+#include "ResourcePaths.h"
 
 PauseGameState::PauseGameState(sf::RenderWindow& win)
     : window(win),
-    arena("D:/amity/testing/2nd/PvP_BlockChain/PvP_BlockChain/Resources/Images/Background/arena.jpg", win.getSize()) {
-    font.loadFromFile("D:/amity/testing/2nd/PvP_BlockChain/PvP_BlockChain/Resources/Images/fonts/ARCADECLASSIC.TTF");
+    arena(findResourcePath("Resources/Images/Background/arena.jpg"), win.getSize()) {
+    font.loadFromFile(findResourcePath("Resources/Images/fonts/ARCADECLASSIC.TTF"));
     initMainMenu();
     initWalletMenu();
     initPurchaseMenu();
@@ -74,7 +75,7 @@ void PauseGameState::drawTexts(const std::vector<sf::Text>& texts) {
     for (const auto& t : texts) window.draw(t);
 }
 
-StateID PauseGameState::update(float dt) {  // ADD float dt parameter
+StateID PauseGameState::update(float dt) {
     sf::Event event;
     while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed)

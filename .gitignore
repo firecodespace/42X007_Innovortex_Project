@@ -1,0 +1,24 @@
+# Dependencies
+**/node_modules/
+
+# Hardhat
+blockchain/artifacts/
+blockchain/cache/
+blockchain/deployments.generated.json
+
+# Bridge generated (optional local override; deploy script usually regenerates)
+node_bridge/contracts.generated.json
+
+# Native build outputs
+PvP_BlockChain/build/
+PvP_BlockChain/build_mingw/
+PvP_BlockChain/out/
+GladiatorSFML/out/
+GladiatorSFML/build/
+
+# IDE / OS
+.vs/
+.vscode/
+*.user
+.DS_Store
+Thumbs.db

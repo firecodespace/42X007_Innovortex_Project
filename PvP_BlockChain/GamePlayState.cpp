@@ -1,9 +1,10 @@
 #include "GamePlayState.h"
 #include "MapSelectionState.h"
+#include "ResourcePaths.h"
 
 GamePlayState::GamePlayState(sf::RenderWindow& win)
     : window(win), game(win), font(), gameOver(false), winner(0), waitingForKeyRelease(false) {
-    if (!font.loadFromFile("D:/amity/testing/2nd/PvP_BlockChain/PvP_BlockChain/Resources/Images/fonts/ARCADECLASSIC.TTF")) {
+    if (!font.loadFromFile(findResourcePath("Resources/Images/fonts/ARCADECLASSIC.TTF"))) {
         
     }
     game.setMapBackground(MapSelectionState::getSelectedMap());
