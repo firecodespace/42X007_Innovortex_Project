@@ -1,0 +1,12 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/ADITYA SINGH/OneDrive/Desktop/fieldview/42X007_Innovortex_Project/PvP_BlockChain/build_tdm/_deps/sfml-build/src/SFML/Network/sfml-network.rc
+winresrc.h
+C:/Users/ADITYA SINGH/OneDrive/Desktop/fieldview/42X007_Innovortex_Project/PvP_BlockChain/build_tdm/_deps/sfml-build/src/SFML/Network/winresrc.h
+

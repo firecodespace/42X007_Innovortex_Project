@@ -1,0 +1,15 @@
+# This is a generated file and its contents are an internal implementation detail.
+# The download step will be re-executed if anything in this file changes.
+# No other meaning or use of this file is supported.
+
+method=git
+command=C:/Program Files/CMake/bin/cmake.exe;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;C:/Users/ADITYA SINGH/OneDrive/Desktop/fieldview/42X007_Innovortex_Project/PvP_BlockChain/build_tdm/_deps/sfml-subbuild/sfml-populate-prefix/tmp/sfml-populate-gitclone.cmake
+source_dir=C:/Users/ADITYA SINGH/OneDrive/Desktop/fieldview/42X007_Innovortex_Project/PvP_BlockChain/build_tdm/_deps/sfml-src
+work_dir=C:/Users/ADITYA SINGH/OneDrive/Desktop/fieldview/42X007_Innovortex_Project/PvP_BlockChain/build_tdm/_deps
+repository=https://github.com/SFML/SFML.git
+remote=origin
+init_submodules=TRUE
+recurse_submodules=--recursive
+submodules=
+CMP0097=NEW
+      

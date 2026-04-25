@@ -1,0 +1,66 @@
+_deps/sfml-build/src/SFML/Window/CMakeFiles/sfml-window.dir/Vulkan.cpp.obj: \
+ C:\Users\ADITYA\ SINGH\OneDrive\Desktop\fieldview\42X007_Innovortex_Project\PvP_BlockChain\build_tdm\_deps\sfml-src\src\SFML\Window\Vulkan.cpp \
+ C:/Users/ADITYA\ SINGH/OneDrive/Desktop/fieldview/42X007_Innovortex_Project/PvP_BlockChain/build_tdm/_deps/sfml-src/include/SFML/Window/Vulkan.hpp \
+ C:/Users/ADITYA\ SINGH/OneDrive/Desktop/fieldview/42X007_Innovortex_Project/PvP_BlockChain/build_tdm/_deps/sfml-src/include/SFML/Window/Export.hpp \
+ C:/Users/ADITYA\ SINGH/OneDrive/Desktop/fieldview/42X007_Innovortex_Project/PvP_BlockChain/build_tdm/_deps/sfml-src/include/SFML/Config.hpp \
+ C:/Users/ADITYA\ SINGH/OneDrive/Desktop/fieldview/42X007_Innovortex_Project/PvP_BlockChain/build_tdm/_deps/sfml-src/include/SFML/Window/WindowHandle.hpp \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/vector \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/stl_algobase.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/x86_64-w64-mingw32/bits/c++config.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/x86_64-w64-mingw32/bits/os_defines.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/x86_64-w64-mingw32/bits/cpu_defines.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/pstl/pstl_config.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/functexcept.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/exception_defines.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/cpp_type_traits.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/ext/type_traits.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/ext/numeric_traits.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/stl_pair.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/move.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/type_traits \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/stl_iterator_base_types.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/stl_iterator_base_funcs.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/concept_check.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/debug/assertions.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/stl_iterator.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/ptr_traits.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/debug/debug.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/predefined_ops.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/allocator.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/x86_64-w64-mingw32/bits/c++allocator.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/ext/new_allocator.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/new \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/exception \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/exception.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/exception_ptr.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/cxxabi_init_exception.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/stddef.h \
+ C:/TDM-GCC-64/x86_64-w64-mingw32/include/stddef.h \
+ C:/TDM-GCC-64/x86_64-w64-mingw32/include/crtdefs.h \
+ C:/TDM-GCC-64/x86_64-w64-mingw32/include/corecrt.h \
+ C:/TDM-GCC-64/x86_64-w64-mingw32/include/_mingw.h \
+ C:/TDM-GCC-64/x86_64-w64-mingw32/include/_mingw_mac.h \
+ C:/TDM-GCC-64/x86_64-w64-mingw32/include/_mingw_secapi.h \
+ C:/TDM-GCC-64/x86_64-w64-mingw32/include/vadefs.h \
+ C:/TDM-GCC-64/x86_64-w64-mingw32/include/sdks/_mingw_ddk.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/typeinfo \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/hash_bytes.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/nested_exception.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/memoryfwd.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/stl_construct.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/stl_uninitialized.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/ext/alloc_traits.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/alloc_traits.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/stl_vector.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/initializer_list \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/stl_bvector.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/functional_hash.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/range_access.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/iterator_concepts.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/concepts \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/range_cmp.h \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/bits/vector.tcc \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/cstddef \
+ C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/10.3.0/include/stdint.h \
+ C:/TDM-GCC-64/x86_64-w64-mingw32/include/stdint.h \
+ C:/Users/ADITYA\ SINGH/OneDrive/Desktop/fieldview/42X007_Innovortex_Project/PvP_BlockChain/build_tdm/_deps/sfml-src/src/SFML/Window/Win32/VulkanImplWin32.hpp

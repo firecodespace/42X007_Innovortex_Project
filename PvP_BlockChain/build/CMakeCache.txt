@@ -32,7 +32,16 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=PvP_BlockChain
+CMAKE_PROJECT_NAME:STATIC=GladiatorArena
+
+//Value Computed by CMake
+GladiatorArena_BINARY_DIR:STATIC=C:/Users/ADITYA SINGH/OneDrive/Desktop/fieldview/42X007_Innovortex_Project/PvP_BlockChain/build
+
+//Value Computed by CMake
+GladiatorArena_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+GladiatorArena_SOURCE_DIR:STATIC=C:/Users/ADITYA SINGH/OneDrive/Desktop/fieldview/42X007_Innovortex_Project/PvP_BlockChain
 
 //Value Computed by CMake
 PvP_BlockChain_BINARY_DIR:STATIC=C:/Users/ADITYA SINGH/OneDrive/Desktop/fieldview/42X007_Innovortex_Project/PvP_BlockChain/build

@@ -1,0 +1,15 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/ADITYA SINGH/OneDrive/Desktop/fieldview/42X007_Innovortex_Project/PvP_BlockChain/build_tdm/cmake_install.cmake",
+		"C:/Users/ADITYA SINGH/OneDrive/Desktop/fieldview/42X007_Innovortex_Project/PvP_BlockChain/build_tdm/_deps/sfml-build/cmake_install.cmake",
+		"C:/Users/ADITYA SINGH/OneDrive/Desktop/fieldview/42X007_Innovortex_Project/PvP_BlockChain/build_tdm/_deps/sfml-build/src/SFML/cmake_install.cmake",
+		"C:/Users/ADITYA SINGH/OneDrive/Desktop/fieldview/42X007_Innovortex_Project/PvP_BlockChain/build_tdm/_deps/sfml-build/src/SFML/System/cmake_install.cmake",
+		"C:/Users/ADITYA SINGH/OneDrive/Desktop/fieldview/42X007_Innovortex_Project/PvP_BlockChain/build_tdm/_deps/sfml-build/src/SFML/Main/cmake_install.cmake",
+		"C:/Users/ADITYA SINGH/OneDrive/Desktop/fieldview/42X007_Innovortex_Project/PvP_BlockChain/build_tdm/_deps/sfml-build/src/SFML/Window/cmake_install.cmake",
+		"C:/Users/ADITYA SINGH/OneDrive/Desktop/fieldview/42X007_Innovortex_Project/PvP_BlockChain/build_tdm/_deps/sfml-build/src/SFML/Network/cmake_install.cmake",
+		"C:/Users/ADITYA SINGH/OneDrive/Desktop/fieldview/42X007_Innovortex_Project/PvP_BlockChain/build_tdm/_deps/sfml-build/src/SFML/Graphics/cmake_install.cmake",
+		"C:/Users/ADITYA SINGH/OneDrive/Desktop/fieldview/42X007_Innovortex_Project/PvP_BlockChain/build_tdm/_deps/sfml-build/src/SFML/Audio/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
